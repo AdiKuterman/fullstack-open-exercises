@@ -8,8 +8,17 @@ const App = () => {
 
 const addPerson = (event) => {
   event.preventDefault()
+
+  const trimmedName = newName.trim()
+  const isDuplicate = persons.some(person => person.name.trim().toLowerCase() === trimmedName.toLowerCase())
+
+  if (isDuplicate) {
+    alert(`${trimmedName} is already added to phonebook`)
+    return 
+  }
+
   const nameObject = {
-    name: newName
+    name: trimmedName
   }
 
   setPersons(persons.concat(nameObject))
