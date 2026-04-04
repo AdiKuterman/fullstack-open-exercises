@@ -21,16 +21,26 @@ const App = () => {
     event.preventDefault()
 
     const trimmedName = newName.trim()
-    const isDuplicate = persons.some(person => person.name.trim().toLowerCase() === trimmedName.toLowerCase())
-
-    if (isDuplicate) {
-      alert(`${trimmedName} is already added to phonebook`)
-      return 
-    }
+    const existingPerson = persons.find(p => p.name.trim().toLowerCase() === trimmedName.toLowerCase())
 
     const nameObject = {
       name: trimmedName,
       number: newNumber
+    }
+
+    if (existingPerson) {
+      if(window.confirm(`${trimmedName} is already added to phonebook, replace the old number with a new one?`)) {
+        const changedPerson = {...existingPerson, number: newNumber}
+
+        personService
+        .update(changedPerson.id, changedPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(p => p.id !== existingPerson.id ? p : returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
+      }
+      return
     }
 
     personService
