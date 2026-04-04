@@ -12,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const personsToShow = filter === ''
   ? persons
@@ -39,11 +40,16 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.map(p => p.id !== existingPerson.id ? p : returnedPerson))
           setSuccessMessage(`Updated ${returnedPerson.name}'s number`)
-          setTimeout(() => {
-            setSuccessMessage(null)
-          }, 5000)
+          setTimeout(() => {setSuccessMessage(null)}, 5000)
           setNewName('')
           setNewNumber('')
+        })
+        .catch(error => {
+          setErrorMessage(`Information of ${changedPerson.name} has already been removed from server`)
+          setPersons(persons.filter(p => p.id !== changedPerson.id))
+          setNewName('')
+          setNewNumber('')
+          setTimeout(() => {setErrorMessage(null)}, 5000)
         })
       }
       return
@@ -54,9 +60,7 @@ const App = () => {
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
         setSuccessMessage(`Added ${returnedPerson.name}`)
-        setTimeout(() => {
-          setSuccessMessage(null)
-        }, 5000)
+        setTimeout(() => {setSuccessMessage(null)}, 5000)
         setNewName('')
         setNewNumber('')
       })
@@ -81,9 +85,13 @@ const App = () => {
       .then(() => {
         setPersons(persons.filter(p => p.id !== id))
       })
-      .then(
-
-      )
+      .catch(error => {
+          setErrorMessage(`Information of ${name} has already been removed from server`)
+          setPersons(persons.filter(p => p.id !== id))
+          setNewName('')
+          setNewNumber('')
+          setTimeout(() => {setErrorMessage(null)}, 5000)
+      })
     }
   }
 
@@ -98,7 +106,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <Notification message={successMessage} className="success" />
+      <Notification message={errorMessage} className="error" />
       <Filter value={filter} onChange={handleFilterChange} />
 
       <h3>Add a new</h3>
