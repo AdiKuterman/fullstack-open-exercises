@@ -24,6 +24,11 @@
       "name": "adi",
       "number": "05",
       "id": "FU1qotNFSq0"
+    },
+    {
+      "name": "noa",
+      "number": "66",
+      "id": "wmELzGjTv68"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
