@@ -54,6 +54,16 @@ const App = () => {
 
   const handleFilterChange = (event) => setFilter(event.target.value)
 
+  const deletePerson = (id, name) => {
+    if(window.confirm(`Delete ${name}?`)) {
+      personService
+      .remove(id)
+      .then(() => {
+        setPersons(persons.filter(p => p.id !== id))
+      })
+    }
+  }
+
   useEffect(() => {
   personService
     .getAll()
@@ -72,7 +82,7 @@ const App = () => {
                     newNumber={newNumber} handleNumberChange={handleNumberChange}/>
       
       <h3>Numbers</h3>
-      <Persons personsToShow={personsToShow}/>
+      <Persons personsToShow={personsToShow} deletePerson={deletePerson}/>
     </div>
   )
 }

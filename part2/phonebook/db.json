@@ -22,13 +22,8 @@
     },
     {
       "name": "adi",
-      "number": "05",
-      "id": "FU1qotNFSq0"
-    },
-    {
-      "name": "noa",
-      "number": "66",
-      "id": "wmELzGjTv68"
+      "number": "555",
+      "id": "Lw90bDgt5pM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
