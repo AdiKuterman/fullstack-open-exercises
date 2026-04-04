@@ -3,6 +3,7 @@ import axios from 'axios'
 import Filter from './Filter'
 import PersonsForm from './PersonsForm'
 import Persons from './Persons'
+import Notification from './Notification'
 import personService from './services/persons'
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
 
   const personsToShow = filter === ''
   ? persons
@@ -36,6 +38,10 @@ const App = () => {
         .update(changedPerson.id, changedPerson)
         .then(returnedPerson => {
           setPersons(persons.map(p => p.id !== existingPerson.id ? p : returnedPerson))
+          setSuccessMessage(`Updated ${returnedPerson.name}'s number`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
           setNewName('')
           setNewNumber('')
         })
@@ -47,6 +53,10 @@ const App = () => {
       .create(nameObject)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
+        setSuccessMessage(`Added ${returnedPerson.name}`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
         setNewName('')
         setNewNumber('')
       })
@@ -71,6 +81,9 @@ const App = () => {
       .then(() => {
         setPersons(persons.filter(p => p.id !== id))
       })
+      .then(
+
+      )
     }
   }
 
@@ -85,6 +98,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage} />
       <Filter value={filter} onChange={handleFilterChange} />
 
       <h3>Add a new</h3>
