@@ -7,9 +7,15 @@ const App = () => {
   const [allCountries, setAllCountries] = useState([])
   const [filter, setFilter] = useState('')
 
-  const countriesToShow = allCountries.filter(country => 
+  const filteredCountries = allCountries.filter(country => 
     country.name.common.toLowerCase().includes(filter.toLowerCase())
   )
+
+  const exactMatch = filteredCountries.find(country => 
+    country.name.common.toLowerCase() === filter.toLowerCase()
+  )
+
+  const countriesToShow = exactMatch ? [exactMatch] : filteredCountries
 
   const handleFilterChange = (event) => setFilter(event.target.value)
 
