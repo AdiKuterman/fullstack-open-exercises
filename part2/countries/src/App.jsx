@@ -13,6 +13,8 @@ const App = () => {
 
   const handleFilterChange = (event) => setFilter(event.target.value)
 
+  const handleShowClick = (countryName) => {setFilter(countryName)}
+
   useEffect(() => {
     axios
       .get('https://studies.cs.helsinki.fi/restcountries/api/all')
@@ -25,7 +27,7 @@ const App = () => {
   return (
     <div>
       <Filter value={filter} onChange={handleFilterChange} />
-      <Countries countriesToShow={countriesToShow}/>
+      <Countries countriesToShow={countriesToShow} onShow={handleShowClick}/>
     </div>
   )
 }
