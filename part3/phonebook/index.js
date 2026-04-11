@@ -27,9 +27,9 @@ let persons = [
 ]
 
 const generateId = () => {
-  const maxId = 100000
-  const newID = Math.floor(Math.random() * maxId)
-  return String(newID)
+    const maxId = 100000
+    const newID = Math.floor(Math.random() * maxId)
+    return String(newID)
 }
 
 app.get('/info', (request, response) => {
@@ -42,17 +42,17 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-  response.json(persons)
+    response.json(persons)
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  const person = persons.find(per => per.id === id)
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).end()
-  }
+    const id = request.params.id
+    const person = persons.find(per => per.id === id)
+    if (person) {
+        response.json(person)
+    } else {
+        response.status(404).end()
+    }
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -63,19 +63,31 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
-  const body = request.body
+    const body = request.body
 
-  const person = {
-    name: body.name,
-    number: body.number,
-    id: generateId(),
-  }
+    if (!body.name || !body.number) {
+        return response.status(400).json({ 
+        error: 'name or number are missing' 
+        })
+    }
 
-  persons = persons.concat(person)
-  response.json(person)
+    if (persons.find(per => per.name.toLowerCase() === body.name.toLowerCase())) {
+        return response.status(400).json({ 
+        error: 'name must be unique' 
+        })
+    }
+
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: generateId(),
+    }
+
+    persons = persons.concat(person)
+    response.json(person)
 })
 
 const PORT = 3001
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+    console.log(`Server running on port ${PORT}`)
 })
