@@ -1,0 +1,17 @@
+{
+  "name": "phonebook",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Adi Kuterman",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "test"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
